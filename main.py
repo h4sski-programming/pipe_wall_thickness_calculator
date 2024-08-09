@@ -1,7 +1,7 @@
-import json
 from kivy.app import App
 from kivy.metrics import dp
 
+from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
@@ -19,14 +19,14 @@ class CalculationValues():
     def __init__(self) -> None:
         ## initial values, for debugging purpouse
         ## to be comment out when on production
-        self.material = '20MnNb6 1.0471'
-        self.dn = 25
-        self.calc_temp = 125
-        self.calc_pressure = 10.5
-        self.corrosion_allowance = 2
-        self.joint_coeficient = 1
-        ###
-        self.strenght_calc_temp = 1
+        # self.material = '20MnNb6 1.0471'
+        # self.dn = 25
+        # self.calc_temp = 125
+        # self.calc_pressure = 10.5
+        # self.corrosion_allowance = 2
+        # self.joint_coefficient = 1
+        # ###
+        # self.strenght_calc_temp = 1
         pass
     
     def get_strenght_calc_temp(self) -> float:
@@ -49,7 +49,7 @@ class CalculationValues():
         return strenght_lower_temp - temp_ratio * strenght_delta
     
     
-    def update_values(self, input, main_widget) -> None:
+    def update_values(self, input) -> None:
         #### input values
         self.material = input.material.text
         self.dn = int(input.dn.text)
@@ -63,21 +63,24 @@ class CalculationValues():
         self.calc_pressure = float(input.calc_pressure.text)
         # c0 corrosion allowance [mm]
         self.corrosion_allowance = float(input.corrosion_allowance.text)
+        # c2 thining allowance [mm]
+        self.thining_allowance = float(input.thining_allowance.text)
         # z joint coefficient [-]
-        self.joint_coeficient = float(input.joint_coeficient.text)
+        self.joint_coefficient = DB_JSON['joint_coefficient'][f'{input.joint_coefficient.text}']
         
         #### calculeted values
+        # Di inner diameter [mm]
+        self.id = self.od - 2*self.nominal_wall_thickness
         # Rp [MPa]
         self.strenght_calc_temp = self.get_strenght_calc_temp()
         # f = Rp / 1.5 [MPa]
         self.reduced_strenght_calc_temp = self.strenght_calc_temp / 1.5
         # e = (pc * Do) / (2* f * z + pc) minimum required wall thickness [mm]
-        self.min_required_thickness = (self.calc_pressure*self.od) / (2*self.reduced_strenght_calc_temp*self.joint_coeficient + self.calc_pressure)
+        self.min_required_thickness = (self.calc_pressure*self.od) / (2*self.reduced_strenght_calc_temp*self.joint_coefficient + self.calc_pressure)
         # c1 = min(12.5%*en, 0.4mm) [mm]
         self.allowance_c1 = min(0.4, self.nominal_wall_thickness*0.125)
-        # c2 = 0
         # ecalc = e + c0 + c1 + c2 calculated minimal wall thickness [mm]
-        self.calculated_wall_thickness = self.min_required_thickness+self.corrosion_allowance+self.allowance_c1
+        self.calculated_wall_thickness = self.min_required_thickness+self.corrosion_allowance+self.allowance_c1+self.thining_allowance
         
         # final output [bool]
         self.correct_thickness = self.calculated_wall_thickness <= self.nominal_wall_thickness
@@ -89,14 +92,14 @@ class CalculationValues():
     #     print(f'{self.calc_temp = }')
     #     print(f'{self.calc_pressure = }')
     #     print(f'{self.corrosion_allowance = }')
-    #     print(f'{self.joint_coeficient = }')
+    #     print(f'{self.joint_coefficient = }')
 
 
 
 class InputWidget(GridLayout):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.cols = 4
+        self.cols = 2
         
         self.add_widget(Label(text='Material'))
         self.material = Dropdown_Button(DB_JSON['materials'].keys(), 'Select material')
@@ -106,25 +109,29 @@ class InputWidget(GridLayout):
         self.dn = Dropdown_Button(DB_JSON['dn'].keys(), 'Select DN')
         self.add_widget(self.dn)
         
-        self.add_widget(Label(text='Wall thickness\n[mm]', halign='left', strip=True))
+        self.add_widget(Label(text='Wall thickness en = [mm]', halign='left', strip=True))
         self.wall_thickness = Dropdown_Button(DB_JSON['walls'], 'Select wall thickness')
         self.add_widget(self.wall_thickness)
         
-        self.add_widget(Label(text='Design temperature \n[°C]'))
+        self.add_widget(Label(text='Design temperature tc = [°C]'))
         self.calc_temp = TextInput(hint_text='type only INT value', input_filter='int', multiline=False, halign='center')
         self.add_widget(self.calc_temp)
         
-        self.add_widget(Label(text='Design pressure \n[MPa]'))
+        self.add_widget(Label(text='Design pressure pc = [MPa]'))
         self.calc_pressure = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
         self.add_widget(self.calc_pressure)
         
-        self.add_widget(Label(text='Corrosion allowance \n[mm]'))
+        self.add_widget(Label(text='Corrosion allowance c0 = [mm]'))
         self.corrosion_allowance = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
         self.add_widget(self.corrosion_allowance)
         
-        self.add_widget(Label(text='Joint coeficient \n[mm]'))
-        self.joint_coeficient = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
-        self.add_widget(self.joint_coeficient)
+        self.add_widget(Label(text='Thining allowance c2 = [mm]'))
+        self.thining_allowance = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
+        self.add_widget(self.thining_allowance)
+        
+        self.add_widget(Label(text='Joint coeficient z = [mm]'))
+        self.joint_coefficient = Dropdown_Button(DB_JSON['joint_coefficient'].keys(), 'Select joint coefficient')
+        self.add_widget(self.joint_coefficient)
     
     
 class MiddleWidget(BoxLayout):
@@ -154,6 +161,10 @@ class OutputWidget(GridLayout):
         self.add_widget(Label(text='OD [mm]'))
         self.od = Label(text='-')
         self.add_widget(self.od)
+        
+        self.add_widget(Label(text='ID [mm]'))
+        self.id = Label(text='-')
+        self.add_widget(self.id)
         
         self.add_widget(Label(text='Strenght at calc temp \nRp [Mpa]'))
         self.strenght_calc_temp = Label(text='-')
@@ -193,10 +204,11 @@ class OutputWidget(GridLayout):
     
     
     def update(self, calc_val: CalculationValues) -> None:
-        self.od.text = str(calc_val.od)
+        self.od.text = f'{calc_val.od:.2f}'
+        self.id.text = f'{calc_val.id:.2f}'
         self.strenght_calc_temp.text = f'{calc_val.strenght_calc_temp:.2f}'
         self.reduced_strenght_calc_temp.text = f'{calc_val.reduced_strenght_calc_temp:.2f}'
-        self.min_required_thickness.text = f'{calc_val.min_required_thickness:.2f}'
+        self.min_required_thickness.text = f'{calc_val.min_required_thickness:.4f}'
         self.allowance_c1.text = f'{calc_val.allowance_c1}'
         self.calculated_wall_thickness.text = f'{calc_val.calculated_wall_thickness:.4f}'
         if calc_val.correct_thickness:
@@ -219,10 +231,14 @@ class MainWidget(BoxLayout):
         self.orientation = 'vertical'
         # self.padding = dp(10), dp(5)
         self.calc_val = CalculationValues()
+        # self.size_hint_y = None
         
         #### Input
         self.input = InputWidget()
-        # self.input.size_hint_y = 0.3
+        # self.input.size_hint_y = 1
+        # self.input.size_hint_y = None
+        # self.input.size = (1, dp(300))
+        # self.input.height = dp(300)
         self.input_title = Button(text='Input')
         self.input_title.size_hint = TITLE_LABEL_SIZE_HINT
         self.input_title.size = TITLE_LABEL_SIZE
@@ -232,12 +248,16 @@ class MainWidget(BoxLayout):
         
         #### Middle
         self.middle = MiddleWidget(main_widget=self)
-        self.middle.size_hint_y = 0.3
+        self.middle.size_hint_y = 0.25
+        # self.middle.size_hint_y = None
+        # self.middle.height = dp(80)
         self.add_widget(self.middle)
         
         #### Output
         self.output = OutputWidget()
-        self.output.size_hint_y = 2
+        self.output.size_hint_y = 1.3
+        # self.output.size_hint = (1, None)
+        # self.output.height = dp(300)
         self.output_title = Button(text='Output')
         self.output_title.size_hint = TITLE_LABEL_SIZE_HINT
         self.output_title.size = TITLE_LABEL_SIZE
@@ -293,10 +313,16 @@ class MainWidget(BoxLayout):
             self.middle.message.text = f'Incorrect corrosion allowance value, it must be positive.'
             return False
         
-        new_joint_coeficient = input.joint_coeficient.text
-        if not new_joint_coeficient or not float(new_joint_coeficient)>0:
+        new_thining_allowance = input.thining_allowance.text
+        if not new_thining_allowance or not float(new_thining_allowance)>=0:
             self.middle.message.color = MESSAGE_ERROR_COLOR
-            self.middle.message.text = f'Incorrect joint coeficient value, it must be positive.'
+            self.middle.message.text = f'Incorrect thining allowance value, it must be positive.'
+            return False
+        
+        new_joint_coefficient = input.joint_coefficient.text
+        if not new_joint_coefficient in DB_JSON['joint_coefficient'].keys():
+            self.middle.message.color = MESSAGE_ERROR_COLOR
+            self.middle.message.text = f'You must select Joint coefficient from the list.'
             return False
         
         return True
@@ -308,14 +334,18 @@ class MainWidget(BoxLayout):
             self.middle.message.color = MESSAGE_COLOR
             self.middle.message.text = 'Press Calculate button to perform calculation'
             
-            self.calc_val.update_values(self.input, self)
+            self.calc_val.update_values(self.input)
             self.output.update(self.calc_val)
 
 
 class CalculatorApp(App):
     def build(self):
         self.title = 'Pipe Wall Thickness Calculator || by h4sski'
-        return MainWidget()
+        Window.size = (800, 800)
+        Window.top = 100
+        Window.left = 100
+        main_layout = MainWidget()
+        return main_layout
     
     
 if __name__ == '__main__':
