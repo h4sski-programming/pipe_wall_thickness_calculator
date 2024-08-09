@@ -78,7 +78,7 @@ class CalculationValues():
         # e = (pc * Do) / (2* f * z + pc) minimum required wall thickness [mm]
         self.min_required_thickness = (self.calc_pressure*self.od) / (2*self.reduced_strenght_calc_temp*self.joint_coefficient + self.calc_pressure)
         # c1 = min(12.5%*en, 0.4mm) [mm]
-        self.allowance_c1 = min(0.4, self.nominal_wall_thickness*0.125)
+        self.allowance_c1 = max(0.4, self.nominal_wall_thickness*0.125)
         # ecalc = e + c0 + c1 + c2 calculated minimal wall thickness [mm]
         self.calculated_wall_thickness = self.min_required_thickness+self.corrosion_allowance+self.allowance_c1+self.thining_allowance
         
@@ -341,9 +341,9 @@ class MainWidget(BoxLayout):
 class CalculatorApp(App):
     def build(self):
         self.title = 'Pipe Wall Thickness Calculator || by h4sski'
-        Window.size = (800, 800)
-        Window.top = 100
-        Window.left = 100
+        Window.size = (800, 700)
+        Window.top = 50
+        Window.left = 50
         main_layout = MainWidget()
         return main_layout
     
