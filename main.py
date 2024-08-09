@@ -178,7 +178,7 @@ class OutputWidget(GridLayout):
         self.min_required_thickness = Label(text='-')
         self.add_widget(self.min_required_thickness)
         
-        self.add_widget(Label(text='Allowance c1 \nc1 = min(en * 12.5%, 0.4mm) [mm]'))
+        self.add_widget(Label(text='Allowance c1 \nc1 = max(en * 12.5%, 0.4mm) [mm]'))
         self.allowance_c1 = Label(text='-')
         self.add_widget(self.allowance_c1)
         
