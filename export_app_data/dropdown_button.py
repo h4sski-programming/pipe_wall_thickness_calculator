@@ -9,7 +9,7 @@ class Dropdown_Button(Button):
         self.text = btn_text
         self.dropdown_btn = DropDown()
         for choise in list_of_choises:
-            btn = Button(text=str(choise), size_hint=(1, None), size=(1, dp(22)))
+            btn = Button(text=str(choise), size_hint=(1, None), size=(1, dp(25)))
             # btn = Button(text=str(choise), size_hint=(None, None), size=(dp(400), dp(22)))
             btn.bind(on_release=lambda btn: self.dropdown_btn.select(btn.text))
             self.dropdown_btn.add_widget(btn)

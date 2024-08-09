@@ -1,0 +1,195 @@
+116 INFO: PyInstaller: 6.9.0, contrib hooks: 2024.7
+116 INFO: Python: 3.10.12
+117 INFO: Platform: Linux-6.5.0-44-generic-x86_64-with-glibc2.35
+117 INFO: Python environment: /home/h4sski/python/pipe_wall_thickness_calculator/venv
+118 INFO: wrote /home/h4sski/python/pipe_wall_thickness_calculator/export_app_data/main.spec
+120 INFO: Module search paths (PYTHONPATH):
+['/usr/lib/python310.zip',
+ '/usr/lib/python3.10',
+ '/usr/lib/python3.10/lib-dynload',
+ '/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages',
+ '/home/h4sski/python/pipe_wall_thickness_calculator/export_app_data']
+186 INFO: checking Analysis
+186 INFO: Building Analysis because Analysis-00.toc is non existent
+186 INFO: Running Analysis Analysis-00.toc
+186 INFO: Target bytecode optimization level: 0
+186 INFO: Initializing module dependency graph...
+187 INFO: Caching module graph hooks...
+193 INFO: Analyzing base_library.zip ...
+474 INFO: Loading module hook 'hook-encodings.py' from '/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/hooks'...
+710 INFO: Loading module hook 'hook-heapq.py' from '/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/hooks'...
+1470 INFO: Loading module hook 'hook-pickle.py' from '/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/hooks'...
+2296 INFO: Caching module dependency graph...
+2370 INFO: Looking for Python shared library...
+2384 INFO: Using Python shared library: /lib/x86_64-linux-gnu/libpython3.10.so
+2384 INFO: Analyzing /home/h4sski/python/pipe_wall_thickness_calculator/export_app_data/main.py
+2405 INFO: Loading module hook 'hook-kivy.py' from '/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/hooks'...
+2414 INFO: Kivy: v2.3.0
+2414 INFO: Logger: Record log in /home/h4sski/.kivy/logs/kivy_24-08-09_27.txt
+[INFO   ] [Logger      ] Record log in /home/h4sski/.kivy/logs/kivy_24-08-09_27.txt
+[INFO   ] [Kivy        ] v2.3.0
+2415 INFO: Kivy: Installed at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/__init__.py"
+[INFO   ] [Kivy        ] Installed at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/__init__.py"
+2415 INFO: Python: v3.10.12 (main, Jul 29 2024, 16:56:48) [GCC 11.4.0]
+[INFO   ] [Python      ] v3.10.12 (main, Jul 29 2024, 16:56:48) [GCC 11.4.0]
+2415 INFO: Python: Interpreter at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/python3"
+[INFO   ] [Python      ] Interpreter at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/python3"
+2415 INFO: Logger: Purge log fired. Processing...
+[INFO   ] [Logger      ] Purge log fired. Processing...
+2416 INFO: Logger: Purge finished!
+[INFO   ] [Logger      ] Purge finished!
+2420 INFO: Factory: 195 symbols loaded
+[INFO   ] [Factory     ] 195 symbols loaded
+2420 DEBUG: Collecting submodules for kivy.graphics
+[DEBUG  ] Collecting submodules for kivy.graphics
+[INFO   ] [Logger      ] Record log in /home/h4sski/.kivy/logs/kivy_24-08-09_28.txt
+[INFO   ] [Kivy        ] v2.3.0
+[INFO   ] [Kivy        ] Installed at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/__init__.py"
+[INFO   ] [Python      ] v3.10.12 (main, Jul 29 2024, 16:56:48) [GCC 11.4.0]
+[INFO   ] [Python      ] Interpreter at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/python3"
+[INFO   ] [Logger      ] Purge log fired. Processing...
+[INFO   ] [Logger      ] Purge finished!
+82 INFO: Kivy: v2.3.0
+82 INFO: Logger: Record log in /home/h4sski/.kivy/logs/kivy_24-08-09_29.txt
+[INFO   ] [Logger      ] Record log in /home/h4sski/.kivy/logs/kivy_24-08-09_29.txt
+[INFO   ] [Kivy        ] v2.3.0
+82 INFO: Kivy: Installed at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/__init__.py"
+[INFO   ] [Kivy        ] Installed at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/__init__.py"
+82 INFO: Python: v3.10.12 (main, Jul 29 2024, 16:56:48) [GCC 11.4.0]
+[INFO   ] [Python      ] v3.10.12 (main, Jul 29 2024, 16:56:48) [GCC 11.4.0]
+82 INFO: Python: Interpreter at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/python3"
+[INFO   ] [Python      ] Interpreter at "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/python3"
+82 INFO: Logger: Purge log fired. Processing...
+[INFO   ] [Logger      ] Purge log fired. Processing...
+83 INFO: Logger: Purge finished!
+[INFO   ] [Logger      ] Purge finished!
+120 INFO: Image: Providers: img_tex, img_dds, img_sdl2, img_pil (img_ffpyplayer ignored)
+[INFO   ] [Image       ] Providers: img_tex, img_dds, img_sdl2, img_pil (img_ffpyplayer ignored)
+124 DEBUG: collect_submodules - scanning (sub)package kivy.graphics in location(s): ['/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/graphics']
+[DEBUG  ] [collect_submodules - scanning (sub)package kivy.graphics in location(s)] ['/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/graphics']
+124 DEBUG: collect_submodules - scanning (sub)package kivy.graphics.cgl_backend
+[DEBUG  ] collect_submodules - scanning (sub)package kivy.graphics.cgl_backend
+125 DEBUG: collect_submodules - scanning (sub)package kivy.graphics.cgl_backend in location(s): ['/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/graphics/cgl_backend']
+[DEBUG  ] [collect_submodules - scanning (sub)package kivy.graphics.cgl_backend in location(s)] ['/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/graphics/cgl_backend']
+2722 DEBUG: collect_submodules - found submodules: ['kivy.graphics', 'kivy.graphics.boxshadow', 'kivy.graphics.buffer', 'kivy.graphics.cgl', 'kivy.graphics.cgl_backend', 'kivy.graphics.cgl_backend.cgl_debug', 'kivy.graphics.cgl_backend.cgl_gl', 'kivy.graphics.cgl_backend.cgl_glew', 'kivy.graphics.cgl_backend.cgl_mock', 'kivy.graphics.cgl_backend.cgl_sdl2', 'kivy.graphics.compiler', 'kivy.graphics.context', 'kivy.graphics.context_instructions', 'kivy.graphics.fbo', 'kivy.graphics.gl_instructions', 'kivy.graphics.instructions', 'kivy.graphics.opengl', 'kivy.graphics.opengl_utils', 'kivy.graphics.scissor_instructions', 'kivy.graphics.shader', 'kivy.graphics.stencil_instructions', 'kivy.graphics.svg', 'kivy.graphics.tesselator', 'kivy.graphics.texture', 'kivy.graphics.transformation', 'kivy.graphics.vbo', 'kivy.graphics.vertex', 'kivy.graphics.vertex_instructions']
+[DEBUG  ] [collect_submodules - found submodules] ['kivy.graphics', 'kivy.graphics.boxshadow', 'kivy.graphics.buffer', 'kivy.graphics.cgl', 'kivy.graphics.cgl_backend', 'kivy.graphics.cgl_backend.cgl_debug', 'kivy.graphics.cgl_backend.cgl_gl', 'kivy.graphics.cgl_backend.cgl_glew', 'kivy.graphics.cgl_backend.cgl_mock', 'kivy.graphics.cgl_backend.cgl_sdl2', 'kivy.graphics.compiler', 'kivy.graphics.context', 'kivy.graphics.context_instructions', 'kivy.graphics.fbo', 'kivy.graphics.gl_instructions', 'kivy.graphics.instructions', 'kivy.graphics.opengl', 'kivy.graphics.opengl_utils', 'kivy.graphics.scissor_instructions', 'kivy.graphics.shader', 'kivy.graphics.stencil_instructions', 'kivy.graphics.svg', 'kivy.graphics.tesselator', 'kivy.graphics.texture', 'kivy.graphics.transformation', 'kivy.graphics.vbo', 'kivy.graphics.vertex', 'kivy.graphics.vertex_instructions']
+2735 WARNING: stderr: Traceback (most recent call last):
+ Traceback (most recent call last):
+2735 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/pyinstaller", line 8, in <module>
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/bin/pyinstaller", line 8, in <module>
+2735 WARNING: stderr:     sys.exit(_console_script_run())
+     sys.exit(_console_script_run())
+2735 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/__main__.py", line 231, in _console_script_run
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/__main__.py", line 231, in _console_script_run
+2735 WARNING: stderr:     run()
+     run()
+2735 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/__main__.py", line 215, in run
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/__main__.py", line 215, in run
+2735 WARNING: stderr:     run_build(pyi_config, spec_file, **vars(args))
+     run_build(pyi_config, spec_file, **vars(args))
+2735 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/__main__.py", line 70, in run_build
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/__main__.py", line 70, in run_build
+2735 WARNING: stderr:     PyInstaller.building.build_main.main(pyi_config, spec_file, **kwargs)
+     PyInstaller.building.build_main.main(pyi_config, spec_file, **kwargs)
+2735 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 1216, in main
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 1216, in main
+2736 WARNING: stderr:     build(specfile, distpath, workpath, clean_build)
+     build(specfile, distpath, workpath, clean_build)
+2736 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 1156, in build
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 1156, in build
+2736 WARNING: stderr:     exec(code, spec_namespace)
+     exec(code, spec_namespace)
+2736 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/export_app_data/main.spec", line 4, in <module>
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/export_app_data/main.spec", line 4, in <module>
+2736 WARNING: stderr:     a = Analysis(
+     a = Analysis(
+2736 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 556, in __init__
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 556, in __init__
+2736 WARNING: stderr:     self.__postinit__()
+     self.__postinit__()
+2737 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/datastruct.py", line 184, in __postinit__
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/datastruct.py", line 184, in __postinit__
+2737 WARNING: stderr:     self.assemble()
+     self.assemble()
+2737 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 696, in assemble
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/building/build_main.py", line 696, in assemble
+2737 WARNING: stderr:     program_scripts.append(self.graph.add_script(script))
+     program_scripts.append(self.graph.add_script(script))
+2737 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 268, in add_script
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 268, in add_script
+2737 WARNING: stderr:     self._top_script_node = super().add_script(pathname)
+     self._top_script_node = super().add_script(pathname)
+2737 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1160, in add_script
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1160, in add_script
+2737 WARNING: stderr:     self._process_imports(n)
+     self._process_imports(n)
+2737 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 2591, in _process_imports
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 2591, in _process_imports
+2738 WARNING: stderr:     target_modules = self._safe_import_hook(*import_info, **kwargs)
+     target_modules = self._safe_import_hook(*import_info, **kwargs)
+2738 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 437, in _safe_import_hook
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 437, in _safe_import_hook
+2738 WARNING: stderr:     ret_modules = super()._safe_import_hook(
+     ret_modules = super()._safe_import_hook(
+2738 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 2048, in _safe_import_hook
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 2048, in _safe_import_hook
+2738 WARNING: stderr:     target_modules = self.import_hook(
+     target_modules = self.import_hook(
+2738 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1232, in import_hook
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1232, in import_hook
+2739 WARNING: stderr:     target_package, target_module_partname = self._find_head_package(
+     target_package, target_module_partname = self._find_head_package(
+2739 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1411, in _find_head_package
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1411, in _find_head_package
+2739 WARNING: stderr:     target_package = self._safe_import_module(
+     target_package = self._safe_import_module(
+2739 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 501, in _safe_import_module
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 501, in _safe_import_module
+2739 WARNING: stderr:     return super()._safe_import_module(module_basename, module_name, parent_package)
+     return super()._safe_import_module(module_basename, module_name, parent_package)
+2739 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1792, in _safe_import_module
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 1792, in _safe_import_module
+2739 WARNING: stderr:     self._process_imports(n)
+     self._process_imports(n)
+2740 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 2591, in _process_imports
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/lib/modulegraph/modulegraph.py", line 2591, in _process_imports
+2740 WARNING: stderr:     target_modules = self._safe_import_hook(*import_info, **kwargs)
+     target_modules = self._safe_import_hook(*import_info, **kwargs)
+2740 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 368, in _safe_import_hook
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 368, in _safe_import_hook
+2740 WARNING: stderr:     excluded_imports = self._find_all_excluded_imports(source_module.identifier)
+     excluded_imports = self._find_all_excluded_imports(source_module.identifier)
+2740 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 356, in _find_all_excluded_imports
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/analysis.py", line 356, in _find_all_excluded_imports
+2740 WARNING: stderr:     excluded_imports.update(module_hook.excludedimports)
+     excluded_imports.update(module_hook.excludedimports)
+2740 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/imphook.py", line 316, in __getattr__
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/imphook.py", line 316, in __getattr__
+2741 WARNING: stderr:     self._load_hook_module()
+     self._load_hook_module()
+2741 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/imphook.py", line 383, in _load_hook_module
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/depend/imphook.py", line 383, in _load_hook_module
+2741 WARNING: stderr:     self._hook_module = importlib_load_source(self.hook_module_name, self.hook_filename)
+     self._hook_module = importlib_load_source(self.hook_module_name, self.hook_filename)
+2741 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/compat.py", line 583, in importlib_load_source
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/compat.py", line 583, in importlib_load_source
+2741 WARNING: stderr:     mod_loader.exec_module(mod)
+     mod_loader.exec_module(mod)
+2741 WARNING: stderr:   File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+   File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+2741 WARNING: stderr:   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+2741 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/hooks/hook-kivy.py", line 21, in <module>
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/PyInstaller/hooks/hook-kivy.py", line 21, in <module>
+2741 WARNING: stderr:     hiddenimports = get_deps_all()['hiddenimports']
+     hiddenimports = get_deps_all()['hiddenimports']
+2741 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/tools/packaging/pyinstaller_hooks/__init__.py", line 272, in get_deps_all
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/tools/packaging/pyinstaller_hooks/__init__.py", line 272, in get_deps_all
+2741 WARNING: stderr:     'binaries': _find_gst_binaries(),
+     'binaries': _find_gst_binaries(),
+2742 WARNING: stderr:   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/tools/packaging/pyinstaller_hooks/__init__.py", line 370, in _find_gst_binaries
+   File "/home/h4sski/python/pipe_wall_thickness_calculator/venv/lib/python3.10/site-packages/kivy/tools/packaging/pyinstaller_hooks/__init__.py", line 370, in _find_gst_binaries
+2742 WARNING: stderr:     plugin_deps = bindepend.selectImports(plugin_filepath)
+     plugin_deps = bindepend.selectImports(plugin_filepath)
+2742 WARNING: stderr: AttributeError: module 'PyInstaller.depend.bindepend' has no attribute 'selectImports'
+ AttributeError: module 'PyInstaller.depend.bindepend' has no attribute 'selectImports'

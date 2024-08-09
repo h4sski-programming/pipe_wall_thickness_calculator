@@ -1,9 +1,7 @@
-import json
 from kivy.app import App
 from kivy.metrics import dp
 
 from kivy.core.window import Window
-from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
@@ -210,7 +208,7 @@ class OutputWidget(GridLayout):
         self.id.text = f'{calc_val.id:.2f}'
         self.strenght_calc_temp.text = f'{calc_val.strenght_calc_temp:.2f}'
         self.reduced_strenght_calc_temp.text = f'{calc_val.reduced_strenght_calc_temp:.2f}'
-        self.min_required_thickness.text = f'{calc_val.min_required_thickness:.2f}'
+        self.min_required_thickness.text = f'{calc_val.min_required_thickness:.4f}'
         self.allowance_c1.text = f'{calc_val.allowance_c1}'
         self.calculated_wall_thickness.text = f'{calc_val.calculated_wall_thickness:.4f}'
         if calc_val.correct_thickness:
