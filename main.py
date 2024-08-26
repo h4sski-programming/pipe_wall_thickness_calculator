@@ -223,7 +223,7 @@ class OutputWidget(GridLayout):
         self.min_required_thickness = Label(text='-')
         self.add_widget(self.min_required_thickness)
         
-        self.add_widget(Label(text='Allowance c1 \nc_1 = max(en * 12.5%, 0.4mm) [mm]'))
+        self.add_widget(Label(text='Allowance c1 \nc1 = max(en * 12.5%, 0.4mm) [mm]'))
         self.allowance_c1 = Label(text='-')
         self.add_widget(self.allowance_c1)
         
@@ -398,9 +398,9 @@ class MainWidget(BoxLayout):
 class CalculatorApp(App):
     def build(self):
         self.title = 'Pipe Wall Thickness Calculator @ EN 13480-3 || Coded by h4sski'
-        Window.size = (800, 800)
-        Window.top = 100
-        Window.left = 100
+        Window.size = (800, 700)
+        Window.top = 50
+        Window.left = 50
         main_layout = MainWidget()
         return main_layout
     
