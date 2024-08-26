@@ -34,8 +34,14 @@ class CalculationValues():
     def get_aproximated_strenght_by_calc_temp(self, material_dict: dict, calc_temp: int) -> float:
         # Require ordered dictionary
         
-        lower_temp: int = int(min(material_dict.keys()))
-        higher_temp: int = int(max(material_dict.keys()))
+        lower_temp: int = min([int(t) for t in material_dict.keys()])
+        higher_temp: int = max([int(t) for t in material_dict.keys()])
+        # lower_temp: int = int(min(material_dict.keys()))
+        # higher_temp: int = int(max(material_dict.keys()))
+        
+        if calc_temp > higher_temp:
+            return 0.
+        
         lower_temp_strength: int
         higher_temp_strength: int
         
@@ -54,25 +60,6 @@ class CalculationValues():
         temp_ratio: float = (calc_temp - lower_temp) / (higher_temp - lower_temp)
         strength_delta: int = lower_temp_strength - higher_temp_strength
         return lower_temp_strength - temp_ratio*strength_delta
-        
-        
-        # material_dict = DB_JSON['materials'][self.material]['strenght_at_temp']
-        
-        # # Initial values
-        # lower_temp = int(list(material_dict.keys())[0])
-        # strenght_lower_temp = list(material_dict.values())[0]
-        # for temp, strenght in material_dict.items():
-        #     temp = int(temp)
-        #     if self.calc_temp < temp:
-        #         higher_temp = temp
-        #         strenght_higher_temp = strenght
-        #         break
-        #     lower_temp = temp
-        #     strenght_lower_temp = strenght
-        
-        # temp_ratio = (self.calc_temp - lower_temp) / (higher_temp - lower_temp)
-        # strenght_delta = strenght_lower_temp - strenght_higher_temp
-        # return strenght_lower_temp - temp_ratio * strenght_delta
     
     
     def update_values(self, input) -> None:
@@ -309,15 +296,6 @@ class OutputWidget(GridLayout):
         self.pb_label.text = f'{calc_val.calculated_wall_thickness:.2f} / {calc_val.nominal_wall_thickness:.2f} = {calc_nominal_wall_ratio:.2f}%'
         self.pb.value = calc_nominal_wall_ratio
         
-        # list_temp = [400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500]
-        # creepStrengthList10k = [182, 166, 151, 138, 125, 112, 100, 88, 77, 67, 58]
-        # creepStrengthList100k = [141, 128, 114, 100, 88, 77, 66, 56, 47, 39, 32]
-        # creepStrengthList200k = [128, 115, 102, 89, 77, 66, 56, 46, 33, 26, 24]
-        # test_dict:dict = {}
-        # for i, key in enumerate(list_temp):
-        #     test_dict[f'{key}'] = creepStrengthList10k[i]
-        # print(test_dict)
-        
 
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs) -> None:
@@ -390,9 +368,11 @@ class MainWidget(BoxLayout):
         
         new_temp = input.calc_temp.text
         min_temp, max_temp = self.get_temp_range_for_material(new_material)
-        if not new_temp or not (min_temp <= int(new_temp) <= max_temp):
+        if not new_temp:
+        # if not new_temp or not (min_temp <= int(new_temp) <= max_temp):
             self.middle.message.color = MESSAGE_ERROR_COLOR
-            self.middle.message.text = f'Incorrect temp value. For {new_material} range is {min_temp} ~ {max_temp}.'
+            self.middle.message.text = f'Incorrect temperature value.'
+            # self.middle.message.text = f'Incorrect temp value. For {new_material} range is {min_temp} ~ {max_temp}.'
             return False
         
         new_pressure = input.calc_pressure.text
@@ -417,6 +397,12 @@ class MainWidget(BoxLayout):
         if not new_joint_coefficient in DB_JSON['joint_coefficient'].keys():
             self.middle.message.color = MESSAGE_ERROR_COLOR
             self.middle.message.text = f'You must select Joint coefficient from the list.'
+            return False
+        
+        new_creep_duration = input.creep_duration.text
+        if not new_creep_duration in DB_JSON['creep_durations'].keys():
+            self.middle.message.color = MESSAGE_ERROR_COLOR
+            self.middle.message.text = f'You must select Creep duration from the list.'
             return False
         
         return True
