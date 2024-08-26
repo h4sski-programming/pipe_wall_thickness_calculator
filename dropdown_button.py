@@ -6,7 +6,9 @@ from kivy.uix.dropdown import DropDown
 class Dropdown_Button(Button):
     def __init__(self, list_of_choises: list, btn_text:str, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.text = btn_text
+        # self.text = btn_text
+        ### Select first element
+        self.text = f'{list_of_choises[0]}'
         self.dropdown_btn = DropDown()
         for choise in list_of_choises:
             btn = Button(text=str(choise), size_hint=(1, None), size=(1, dp(25)))

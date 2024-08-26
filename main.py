@@ -1,3 +1,4 @@
+import math
 from kivy.app import App
 from kivy.metrics import dp
 
@@ -73,12 +74,35 @@ class CalculationValues():
         self.id = self.od - 2*self.nominal_wall_thickness
         # Rp [MPa]
         self.strenght_calc_temp = self.get_strenght_calc_temp()
-        # f = Rp / 1.5 [MPa]
-        self.reduced_strenght_calc_temp = self.strenght_calc_temp / 1.5
-        # e = (pc * Do) / (2* f * z + pc) minimum required wall thickness [mm]
-        self.min_required_thickness = (self.calc_pressure*self.od) / (2*self.reduced_strenght_calc_temp*self.joint_coefficient + self.calc_pressure)
+        # f = max( Rp / 1.5, Rm / 2.4) [MPa]
+        # print(f'{self.strenght_calc_temp / 1.5 = }')
+        # print(f"{DB_JSON['materials'][self.material]['tensile_strength_Rm'] / 2.4 = }")
+        self.reduced_strenght_calc_temp = min(self.strenght_calc_temp / 1.5, DB_JSON['materials'][self.material]['tensile_strength_Rm'] / 2.4)
+        # Creep strength, based on EN 10216-2 Table A.1
+        if 'creep_strength' in DB_JSON['materials'][self.material].keys():
+            creep_duration = DB_JSON['creep_durations'][input.creep_duration.text]
+            self.creep_strength = DB_JSON['materials'][self.material]['creep_strength'][creep_duration][0]
+            self.reduced_creep_strength = self.creep_strength/1.5
+        else:
+            self.creep_strength = 0
+            self.reduced_creep_strength = 0
+        # Final reduced strength value
+        if self.reduced_creep_strength == 0:
+            self.reduced_strenght = self.reduced_strenght_calc_temp
+        elif self.reduced_strenght_calc_temp == 0:
+            self.reduced_strenght = self.reduced_creep_strength
+        else:
+            self.reduced_strenght = min(self.reduced_creep_strength, self.reduced_strenght_calc_temp)
+        
+        # Minimum required wall thickness
+        if self.od/self.id <= 1.7:
+            # e = (pc * Do) / (2* f * z + pc) minimum required wall thickness [mm]
+            self.min_required_thickness = (self.calc_pressure*self.od) / (2*self.reduced_strenght*self.joint_coefficient + self.calc_pressure)
+        else:
+            # e = Do/2 * ( 1- sqrt( (f*z-pc) / (f*z+pc) ) )
+            self.min_required_thickness = self.od/2 * ( 1- math.sqrt( (self.reduced_strenght*self.joint_coefficient - self.calc_pressure) / (self.reduced_strenght*self.joint_coefficient + self.calc_pressure) ) )
         # c1 = min(12.5%*en, 0.4mm) [mm]
-        self.allowance_c1 = min(0.4, self.nominal_wall_thickness*0.125)
+        self.allowance_c1 = max(0.4, self.nominal_wall_thickness*0.125)
         # ecalc = e + c0 + c1 + c2 calculated minimal wall thickness [mm]
         self.calculated_wall_thickness = self.min_required_thickness+self.corrosion_allowance+self.allowance_c1+self.thining_allowance
         
@@ -102,36 +126,45 @@ class InputWidget(GridLayout):
         self.cols = 2
         
         self.add_widget(Label(text='Material'))
-        self.material = Dropdown_Button(DB_JSON['materials'].keys(), 'Select material')
+        list_of_choises = list(DB_JSON['materials'].keys())
+        self.material = Dropdown_Button(list_of_choises, 'Select material')
         self.add_widget(self.material)
         
         self.add_widget(Label(text='DN'))
-        self.dn = Dropdown_Button(DB_JSON['dn'].keys(), 'Select DN')
+        list_of_choises = list(DB_JSON['dn'].keys())
+        self.dn = Dropdown_Button(list_of_choises, 'Select DN')
         self.add_widget(self.dn)
         
         self.add_widget(Label(text='Wall thickness en = [mm]', halign='left', strip=True))
-        self.wall_thickness = Dropdown_Button(DB_JSON['walls'], 'Select wall thickness')
+        list_of_choises = list(DB_JSON['walls'])
+        self.wall_thickness = Dropdown_Button(list_of_choises, 'Select wall thickness')
         self.add_widget(self.wall_thickness)
         
         self.add_widget(Label(text='Design temperature tc = [°C]'))
-        self.calc_temp = TextInput(hint_text='type only INT value', input_filter='int', multiline=False, halign='center')
+        self.calc_temp = TextInput(hint_text='type only INT value', text='100', input_filter='int', multiline=False, halign='center')
         self.add_widget(self.calc_temp)
         
         self.add_widget(Label(text='Design pressure pc = [MPa]'))
-        self.calc_pressure = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
+        self.calc_pressure = TextInput(hint_text='type value', text='2.4', input_filter='float', multiline=False, halign='center')
         self.add_widget(self.calc_pressure)
         
         self.add_widget(Label(text='Corrosion allowance c0 = [mm]'))
-        self.corrosion_allowance = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
+        self.corrosion_allowance = TextInput(hint_text='type value', text='2', input_filter='float', multiline=False, halign='center')
         self.add_widget(self.corrosion_allowance)
         
         self.add_widget(Label(text='Thining allowance c2 = [mm]'))
-        self.thining_allowance = TextInput(hint_text='type value', input_filter='float', multiline=False, halign='center')
+        self.thining_allowance = TextInput(hint_text='type value', text='0', input_filter='float', multiline=False, halign='center')
         self.add_widget(self.thining_allowance)
         
         self.add_widget(Label(text='Joint coeficient z = [mm]'))
-        self.joint_coefficient = Dropdown_Button(DB_JSON['joint_coefficient'].keys(), 'Select joint coefficient')
+        list_of_choises = list(DB_JSON['joint_coefficient'].keys())
+        self.joint_coefficient = Dropdown_Button(list_of_choises, 'Select joint coefficient')
         self.add_widget(self.joint_coefficient)
+        
+        self.add_widget(Label(text='Creep duration [H]'))
+        list_of_choises = list(DB_JSON['creep_durations'].keys())
+        self.creep_duration = Dropdown_Button(list_of_choises, 'Select creep duration')
+        self.add_widget(self.creep_duration)
     
     
 class MiddleWidget(BoxLayout):
@@ -148,7 +181,7 @@ class MiddleWidget(BoxLayout):
         self.add_widget(self.calculate_btn)
         
         self.message = Label(text='Press Calculate button to perform calculation')
-        self.message.size_hint_x = 3
+        self.message.size_hint_x = 4
         self.message.color = MESSAGE_COLOR
         self.add_widget(self.message)
         
@@ -166,23 +199,35 @@ class OutputWidget(GridLayout):
         self.id = Label(text='-')
         self.add_widget(self.id)
         
-        self.add_widget(Label(text='Strenght at calc temp \nRp [Mpa]'))
+        self.add_widget(Label(text='Strenght at calc temp \nR_p [Mpa]'))
         self.strenght_calc_temp = Label(text='-')
         self.add_widget(self.strenght_calc_temp)
         
-        self.add_widget(Label(text='Reduced strenght at calc temp \nf = Rp / 1.5 [Mpa]'))
+        self.add_widget(Label(text='Reduced strenght at calc temp \nf_str = max( R_p/1.5, R_m/2.4 ) [Mpa]'))
         self.reduced_strenght_calc_temp = Label(text='-')
         self.add_widget(self.reduced_strenght_calc_temp)
         
-        self.add_widget(Label(text='Minimum required wall thickness \ne = (pc * Do) / (2* f * z + pc) [mm]'))
+        self.add_widget(Label(text='Creep strenght at calc temp \nS_RTt [Mpa]'))
+        self.creep_strenght_calc_temp = Label(text='-')
+        self.add_widget(self.creep_strenght_calc_temp)
+        
+        self.add_widget(Label(text='Reduced creep strenght at calc temp \nf_cr = S_RTt/1.5 [Mpa]'))
+        self.reduced_creep_strenght_calc_temp = Label(text='-')
+        self.add_widget(self.reduced_creep_strenght_calc_temp)
+        
+        self.add_widget(Label(text='Final reduced strenght\nf = min( f_str , f_cr ) [Mpa]'))
+        self.final_reduced_strength = Label(text='-')
+        self.add_widget(self.final_reduced_strength)
+        
+        self.add_widget(Label(text='Minimum required wall thickness \ne = (pc * D_o) / (2* f * z + p_c) [mm]'))
         self.min_required_thickness = Label(text='-')
         self.add_widget(self.min_required_thickness)
         
-        self.add_widget(Label(text='Allowance c1 \nc1 = min(en * 12.5%, 0.4mm) [mm]'))
+        self.add_widget(Label(text='Allowance c1 \nc_1 = max(en * 12.5%, 0.4mm) [mm]'))
         self.allowance_c1 = Label(text='-')
         self.add_widget(self.allowance_c1)
         
-        self.add_widget(Label(text='Calculated minimal wall thickness \necalc = e + c0 + c1 + c2 [mm]'))
+        self.add_widget(Label(text='Calculated minimal wall thickness \ne_calc = e + c_0 + c_1 + c_2 [mm]'))
         self.calculated_wall_thickness = Label(text='-')
         self.add_widget(self.calculated_wall_thickness)
         
@@ -208,6 +253,9 @@ class OutputWidget(GridLayout):
         self.id.text = f'{calc_val.id:.2f}'
         self.strenght_calc_temp.text = f'{calc_val.strenght_calc_temp:.2f}'
         self.reduced_strenght_calc_temp.text = f'{calc_val.reduced_strenght_calc_temp:.2f}'
+        self.creep_strenght_calc_temp.text = f'{calc_val.creep_strength:.2f}'
+        self.reduced_creep_strenght_calc_temp.text = f'{calc_val.reduced_creep_strength:.2f}'
+        self.final_reduced_strength.text = f'{calc_val.reduced_strenght:.2f}'
         self.min_required_thickness.text = f'{calc_val.min_required_thickness:.4f}'
         self.allowance_c1.text = f'{calc_val.allowance_c1}'
         self.calculated_wall_thickness.text = f'{calc_val.calculated_wall_thickness:.4f}'
@@ -223,7 +271,16 @@ class OutputWidget(GridLayout):
         calc_nominal_wall_ratio = calc_val.calculated_wall_thickness / calc_val.nominal_wall_thickness *100
         self.pb_label.text = f'{calc_val.calculated_wall_thickness:.2f} / {calc_val.nominal_wall_thickness:.2f} = {calc_nominal_wall_ratio:.2f}%'
         self.pb.value = calc_nominal_wall_ratio
-
+        
+        # list_temp = [400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500]
+        # creepStrengthList10k = [182, 166, 151, 138, 125, 112, 100, 88, 77, 67, 58]
+        # creepStrengthList100k = [141, 128, 114, 100, 88, 77, 66, 56, 47, 39, 32]
+        # creepStrengthList200k = [128, 115, 102, 89, 77, 66, 56, 46, 33, 26, 24]
+        # test_dict:dict = {}
+        # for i, key in enumerate(list_temp):
+        #     test_dict[f'{key}'] = creepStrengthList10k[i]
+        # print(test_dict)
+        
 
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs) -> None:
@@ -255,7 +312,7 @@ class MainWidget(BoxLayout):
         
         #### Output
         self.output = OutputWidget()
-        self.output.size_hint_y = 1.3
+        self.output.size_hint_y = 1.4
         # self.output.size_hint = (1, None)
         # self.output.height = dp(300)
         self.output_title = Button(text='Output')
@@ -340,7 +397,7 @@ class MainWidget(BoxLayout):
 
 class CalculatorApp(App):
     def build(self):
-        self.title = 'Pipe Wall Thickness Calculator || by h4sski'
+        self.title = 'Pipe Wall Thickness Calculator @ EN 13480-3 || Coded by h4sski'
         Window.size = (800, 800)
         Window.top = 100
         Window.left = 100

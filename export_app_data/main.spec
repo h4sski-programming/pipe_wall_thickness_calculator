@@ -1,7 +1,5 @@
+from kivy_deps import sdl2, glew
 # -*- mode: python ; coding: utf-8 -*-
-
-
-block_cipher = None
 
 
 a = Analysis(
@@ -14,12 +12,10 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
+    optimize=0,
 )
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
@@ -39,10 +35,10 @@ exe = EXE(
     entitlements_file=None,
 )
 coll = COLLECT(
-    exe,
+    exe, Tree('//home//h4sski//python//pipe_wall_thickness_calculator/export_app_data//'),
     a.binaries,
-    a.zipfiles,
     a.datas,
+    *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins)],
     strip=False,
     upx=True,
     upx_exclude=[],
