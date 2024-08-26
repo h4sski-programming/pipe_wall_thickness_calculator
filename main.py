@@ -14,6 +14,7 @@ from kivy.uix.progressbar import ProgressBar
 
 from settings import *
 from dropdown_button import Dropdown_Button
+from data_base import get_dict_from_values
 
 
 class CalculationValues():
@@ -30,29 +31,54 @@ class CalculationValues():
         # self.strenght_calc_temp = 1
         pass
     
-    def get_strenght_calc_temp(self) -> float:
-        material_dict = DB_JSON['materials'][self.material]['strenght_at_temp']
+    def get_aproximated_strenght_by_calc_temp(self, material_dict: dict, calc_temp: int) -> float:
+        # Require ordered dictionary
         
-        # Initial values
-        lower_temp = int(list(material_dict.keys())[0])
-        strenght_lower_temp = list(material_dict.values())[0]
-        for temp, strenght in material_dict.items():
-            temp = int(temp)
-            if self.calc_temp < temp:
-                higher_temp = temp
-                strenght_higher_temp = strenght
-                break
-            lower_temp = temp
-            strenght_lower_temp = strenght
+        lower_temp: int = int(min(material_dict.keys()))
+        higher_temp: int = int(max(material_dict.keys()))
+        lower_temp_strength: int
+        higher_temp_strength: int
         
-        temp_ratio = (self.calc_temp - lower_temp) / (higher_temp - lower_temp)
-        strenght_delta = strenght_lower_temp - strenght_higher_temp
-        return strenght_lower_temp - temp_ratio * strenght_delta
+        for temp, strength in material_dict.items():
+            temp_int = int(temp)
+            if calc_temp <= temp_int < higher_temp and strength > 0:
+                higher_temp = temp_int
+            elif lower_temp < temp_int < calc_temp:
+                lower_temp = temp_int
+        lower_temp_strength = material_dict[f'{lower_temp}']
+        higher_temp_strength = material_dict[f'{higher_temp}']
+        
+        if calc_temp == higher_temp:
+            return higher_temp_strength
+        
+        temp_ratio: float = (calc_temp - lower_temp) / (higher_temp - lower_temp)
+        strength_delta: int = lower_temp_strength - higher_temp_strength
+        return lower_temp_strength - temp_ratio*strength_delta
+        
+        
+        # material_dict = DB_JSON['materials'][self.material]['strenght_at_temp']
+        
+        # # Initial values
+        # lower_temp = int(list(material_dict.keys())[0])
+        # strenght_lower_temp = list(material_dict.values())[0]
+        # for temp, strenght in material_dict.items():
+        #     temp = int(temp)
+        #     if self.calc_temp < temp:
+        #         higher_temp = temp
+        #         strenght_higher_temp = strenght
+        #         break
+        #     lower_temp = temp
+        #     strenght_lower_temp = strenght
+        
+        # temp_ratio = (self.calc_temp - lower_temp) / (higher_temp - lower_temp)
+        # strenght_delta = strenght_lower_temp - strenght_higher_temp
+        # return strenght_lower_temp - temp_ratio * strenght_delta
     
     
     def update_values(self, input) -> None:
         #### input values
         self.material = input.material.text
+        material_db_dict = DB_JSON['materials'][self.material]
         self.dn = int(input.dn.text)
         # Do outer diameter [mm]
         self.od = DB_JSON['dn'][f'{self.dn}']['od']
@@ -73,15 +99,17 @@ class CalculationValues():
         # Di inner diameter [mm]
         self.id = self.od - 2*self.nominal_wall_thickness
         # Rp [MPa]
-        self.strenght_calc_temp = self.get_strenght_calc_temp()
+        self.strenght_calc_temp = self.get_aproximated_strenght_by_calc_temp(material_db_dict['strenght_at_temp'], self.calc_temp)
         # f = max( Rp / 1.5, Rm / 2.4) [MPa]
         # print(f'{self.strenght_calc_temp / 1.5 = }')
         # print(f"{DB_JSON['materials'][self.material]['tensile_strength_Rm'] / 2.4 = }")
         self.reduced_strenght_calc_temp = min(self.strenght_calc_temp / 1.5, DB_JSON['materials'][self.material]['tensile_strength_Rm'] / 2.4)
         # Creep strength, based on EN 10216-2 Table A.1
-        if 'creep_strength' in DB_JSON['materials'][self.material].keys():
+        if self.material_have_creep_values(material_db_dict) and self.temp_in_creep_range(self.calc_temp, material_db_dict['creep_strength']['creep_temps']):
+            # if material_db_dict['creep_strength']['creep_temps'][0] <= self.calc_temp <= material_db_dict['creep_strength']['creep_temps'][0]:
             creep_duration = DB_JSON['creep_durations'][input.creep_duration.text]
-            self.creep_strength = DB_JSON['materials'][self.material]['creep_strength'][creep_duration][0]
+            creep_dict = get_dict_from_values(material_db_dict['creep_strength']['creep_temps'], material_db_dict['creep_strength'][creep_duration])
+            self.creep_strength = self.get_aproximated_strenght_by_calc_temp(creep_dict, self.calc_temp)
             self.reduced_creep_strength = self.creep_strength/1.5
         else:
             self.creep_strength = 0
@@ -117,6 +145,15 @@ class CalculationValues():
     #     print(f'{self.calc_pressure = }')
     #     print(f'{self.corrosion_allowance = }')
     #     print(f'{self.joint_coefficient = }')
+    
+    def material_have_creep_values(self, material_db_dict: dict) -> bool:
+        return 'creep_strength' in material_db_dict.keys()
+    
+    def temp_in_creep_range(self, calc_temp: int, creep_temps: list) -> bool:
+        print(f'{min(creep_temps) = }')
+        print(f'{max(creep_temps) = }')
+        print(f'{calc_temp = }')
+        return min(creep_temps) <= calc_temp <= max(creep_temps)
 
 
 
